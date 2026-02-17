@@ -7,7 +7,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\Extension\Extension;
 
 /**
  * Fetch the RabbitMq bundle's consumer configuration.
@@ -17,7 +17,7 @@ class RabbitMqSupervisorExtension extends Extension implements PrependExtensionI
     /**
      * {@inheritDoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
@@ -64,7 +64,7 @@ class RabbitMqSupervisorExtension extends Extension implements PrependExtensionI
         $container->setParameter('phobetor_rabbitmq_supervisor.commands', $config['commands']);
     }
 
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         $attributeNames = array('consumers', 'multiple_consumers', 'batch_consumers', 'rpc_servers');
         $attributes = array_combine($attributeNames, array_fill(0, count($attributeNames), []));
